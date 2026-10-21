@@ -1,0 +1,24 @@
+# Netlify detects Next.js and applies its Next.js runtime (OpenNext adapter)
+# automatically: static pages go to the CDN and /api/enquiry runs as a
+# Netlify Function. No publish directory needs to be set.
+[build]
+  command = "npm run build"
+
+[build.environment]
+  NODE_VERSION = "22"
+  NEXT_TELEMETRY_DISABLED = "1"
+
+# Redirect the bare domain to www so there is one canonical URL.
+[[redirects]]
+  from = "https://jspropertymaintenance.com/*"
+  to = "https://www.jspropertymaintenance.com/:splat"
+  status = 301
+  force = true
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    X-Frame-Options = "DENY"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=()"

@@ -21,7 +21,7 @@ npm run build
 
 ## Form email setup
 
-Set these environment variables in your host (e.g. Vercel → Project → Settings → Environment Variables):
+Set these environment variables in Netlify (Site configuration → Environment variables):
 
 | Variable | Purpose |
 | --- | --- |
@@ -30,3 +30,14 @@ Set these environment variables in your host (e.g. Vercel → Project → Settin
 | `ENQUIRY_FROM` | Verified sender, e.g. `JSPM Website <website@jspm.uk>` |
 
 In development without a key, submissions are logged to the server console. In production without a key, the form shows an error asking visitors to phone or email, so enquiries are never silently lost.
+
+## Deploying to Netlify
+
+`netlify.toml` holds the build settings, so there is nothing to type into the Netlify UI:
+
+1. In Netlify choose **Add new project → Import an existing project**, pick this GitHub repo and the branch to deploy.
+2. Leave the build settings Netlify detects (build command `npm run build`, Node 22). Netlify's Next.js runtime is applied automatically: pages are served from its CDN and the enquiry form endpoint runs as a Netlify Function.
+3. Add the form email variables above, then deploy.
+4. Under **Domain management**, add `www.jspropertymaintenance.com` and `jspropertymaintenance.com`, and point the DNS at Netlify. The bare domain redirects to `www`.
+
+To test a Netlify build locally: `npx netlify-cli build` (or `npx netlify-cli dev`).
